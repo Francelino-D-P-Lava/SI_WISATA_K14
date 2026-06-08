@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  id     Int      @id @default(autoincrement())
+  name   String
+  wisata wisata[]
+}
+
+model user {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique(map: "User_email_key")
+  password String
+  wisata   wisata[]
+}
+
+model wisata {
+  id          Int      @id @default(autoincrement())
+  nama        String
+  lokasi      String
+  deskripsi   String
+  gambar      String
+  user_id     Int
+  category_id Int
+  category    category @relation(fields: [category_id], references: [id], map: "Wisata_category_id_fkey")
+  user        user     @relation(fields: [user_id], references: [id], map: "Wisata_user_id_fkey")
+
+  @@index([category_id], map: "Wisata_category_id_fkey")
+  @@index([user_id], map: "Wisata_user_id_fkey")
+}

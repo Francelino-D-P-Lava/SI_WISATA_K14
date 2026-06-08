@@ -1,0 +1,338 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sistem Informasi Wisata API",
+    "version": "1.0.0"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+
+      "Wisata": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nama": {
+            "type": "string"
+          },
+          "lokasi": {
+            "type": "string"
+          },
+          "deskripsi": {
+            "type": "string"
+          },
+          "gambar": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "category_id": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login Admin",
+
+        "security": [],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Login berhasil"
+          }
+        }
+      }
+    },
+
+    "/api/categories": {
+      "get": {
+        "summary": "Menampilkan semua kategori",
+        "responses": {
+          "200": {
+            "description": "Berhasil"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Tambah kategori",
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Kategori berhasil ditambahkan"
+          }
+        }
+      }
+    },
+
+    "/api/categories/{id}": {
+      "get": {
+        "summary": "Detail kategori",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Detail kategori"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Update kategori",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Kategori berhasil diubah"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Hapus kategori",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Kategori berhasil dihapus"
+          }
+        }
+      }
+    },
+
+    "/api/wisata": {
+      "get": {
+        "summary": "Menampilkan semua wisata",
+
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Daftar wisata"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Tambah wisata",
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Wisata"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Wisata berhasil ditambahkan"
+          }
+        }
+      }
+    },
+
+    "/api/wisata/{id}": {
+      "get": {
+        "summary": "Detail wisata",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Detail wisata"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Update wisata",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Wisata"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Wisata berhasil diubah"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Hapus wisata",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Wisata berhasil dihapus"
+          }
+        }
+      }
+    }
+  }
+}
